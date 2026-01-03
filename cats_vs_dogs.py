@@ -28,7 +28,7 @@ import cv2
 import ai8x
 
 
-class CatsvsDogs(Dataset):
+class LoafvsNotLoaf(Dataset):
     """
     `Cats vs Dogs dataset <https://www.kaggle.com/datasets/salader/dogs-vs-cats>` Dataset.
 
@@ -50,9 +50,9 @@ class CatsvsDogs(Dataset):
     def __init__(self, root_dir, d_type, transform=None,
                  resize_size=(128, 128), augment_data=False):
         self.root_dir = root_dir
-        self.data_dir = os.path.join(root_dir, 'cats_vs_dogs', d_type)
+        self.data_dir = os.path.join(root_dir, 'loaf_vs_notloaf', d_type)
 
-        if not self.__check_catsvsdogs_data_exist():
+        if not self.__check_loafvsnotloaf_data_exist():
             self.__print_download_manual()
             sys.exit("Dataset not found!")
 
@@ -77,7 +77,7 @@ class CatsvsDogs(Dataset):
 
         self.transform = transform
 
-    def __check_catsvsdogs_data_exist(self):
+    def __check_loafvsnotloaf_data_exist(self):
         return os.path.isdir(self.data_dir)
 
     # def __print_download_manual(self):
@@ -127,7 +127,7 @@ class CatsvsDogs(Dataset):
         return image, label
 
 
-def get_catsvsdogs_dataset(data, load_train, load_test):
+def get_loafvsnotloaf_dataset(data, load_train, load_test):
     """
     Load the Cats vs Dogs dataset.
     Returns each datasample in 128x128 size.
@@ -148,13 +148,13 @@ def get_catsvsdogs_dataset(data, load_train, load_test):
     ])
 
     if load_train:
-        train_dataset = CatsvsDogs(root_dir=data_dir, d_type='train',
+        train_dataset = LoafvsNotLoaf(root_dir=data_dir, d_type='train',
                                    transform=transform, augment_data=True)
     else:
         train_dataset = None
 
     if load_test:
-        test_dataset = CatsvsDogs(root_dir=data_dir, d_type='test', transform=transform)
+        test_dataset = LoafvsNotLoaf(root_dir=data_dir, d_type='test', transform=transform)
     else:
         test_dataset = None
 
@@ -166,6 +166,6 @@ datasets = [
         'name': 'loaf_vs_notloaf',
         'input': (3, 128, 128),
         'output': ('loaf', 'not loaf'),
-        'loader': get_catsvsdogs_dataset,
+        'loader': get_loafvsnotloaf_dataset,
     },
 ]
